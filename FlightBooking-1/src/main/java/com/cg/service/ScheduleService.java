@@ -8,7 +8,6 @@ import com.cg.model.Schedule;
 
 public interface ScheduleService {
 	
-	
 	public Schedule addSchedule(ScheduleDto scheduleDto);
 	public String deleteSchedule(Integer scheduleId) throws ScheduleException;
 	public Schedule viewbyScheduleId(Integer scheduleId) throws ScheduleException;
