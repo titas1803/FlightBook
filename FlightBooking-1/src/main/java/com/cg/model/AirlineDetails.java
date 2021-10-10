@@ -50,7 +50,6 @@ public class AirlineDetails {
 		this.airlineLogo = airlineLogo;
 	}
 	public AirlineDetails() {
-		// TODO Auto-generated constructor stub
 		super();
 	}
 	

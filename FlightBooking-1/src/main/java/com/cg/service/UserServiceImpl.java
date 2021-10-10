@@ -17,6 +17,9 @@ import com.cg.repository.UserRepository;
 public class UserServiceImpl implements UserService{
 	
 	@Autowired
+	private LoginService loginSer;
+	
+	@Autowired
 	private LoginRepository loginRepo;
 	
 	@Autowired
@@ -42,7 +45,7 @@ public class UserServiceImpl implements UserService{
 		User persistedUser = userRepo.saveAndFlush(user);
 		Login login = new Login();
 		login.setUser(persistedUser);
-		login.setPassword(userDto.getPassword());
+		login.setPassword(loginSer.encryptString(userDto.getPassword()));
 		login.setRole(userDto.getRole());
 		loginRepo.save(login);
 		return persistedUser;
