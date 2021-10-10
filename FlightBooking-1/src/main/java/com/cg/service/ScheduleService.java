@@ -12,5 +12,4 @@ public interface ScheduleService {
 	public String deleteSchedule(Integer scheduleId) throws ScheduleException;
 	public Schedule viewbyScheduleId(Integer scheduleId) throws ScheduleException;
 	public List<Schedule> viewAllSchedule() throws ScheduleException;
-
 }

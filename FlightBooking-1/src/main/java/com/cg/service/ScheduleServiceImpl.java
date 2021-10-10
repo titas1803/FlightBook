@@ -46,7 +46,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 		return optSchedule.get();
 	}
 
-	
+
 	@Override
 	public List<Schedule> viewAllSchedule() throws ScheduleException {
 		List<Schedule> lst=scheduleRepo.findAll();
