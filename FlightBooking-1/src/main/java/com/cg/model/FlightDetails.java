@@ -31,9 +31,7 @@ public class FlightDetails {
 	public Integer getFlightId() {
 		return flightId;
 	}
-	public void setFlightId(Integer flightId) {
-		this.flightId = flightId;
-	}
+	
 	public Integer getPrice() {
 		return price;
 	}
