@@ -7,13 +7,16 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+
+
 import lombok.Data;
 
-//@DynamicInsert
-//@DynamicUpdate
+/*@DynamicInsert
+@DynamicUpdate*/
 
 @Data
 @Entity
+
 @Table(name = "AirLine_Details")
 public class AirlineDetails {
 	
