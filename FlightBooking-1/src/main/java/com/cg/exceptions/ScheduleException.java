@@ -4,7 +4,7 @@ public class ScheduleException extends Exception{
 
 	public ScheduleException() {
 		super();
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	public ScheduleException(String message) {

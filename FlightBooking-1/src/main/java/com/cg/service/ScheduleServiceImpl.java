@@ -51,7 +51,6 @@ public class ScheduleServiceImpl implements ScheduleService {
 		List<Schedule> lst=scheduleRepo.findAll();
 		if(lst.isEmpty())
 			throw new ScheduleException("Schedule Not Found");
-		
 		return lst;
 	}
 
