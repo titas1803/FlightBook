@@ -30,7 +30,7 @@ public class AirlinesDetailsServiceImpl implements AirlinesDetailsService{
 	@Override
 	public String deleteAirline(Integer airlineId) throws AirlineExceptions {
 		Optional<AirlineDetails> optAirline = airlineRepo.findById(airlineId);
-		if(optAirline.isEmpty()) {
+		if(!optAirline.isPresent()) {
 			throw new AirlineExceptions("Airlne Not Found");
 		}
 		airlineRepo.deleteById(airlineId);
