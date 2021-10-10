@@ -42,7 +42,7 @@ public class FlightDetailsServiceImpl implements FlightDetailsService {
 	public FlightDetails viewById(Integer flightId) throws FlightException {
 		Optional<FlightDetails> optFlight=flightRepo.findById(flightId);
 		if(!optFlight.isPresent())
-			throw new FlightException();
+			throw new FlightException("Flight Not Found");
 		return optFlight.get();
 	}
 
@@ -50,7 +50,7 @@ public class FlightDetailsServiceImpl implements FlightDetailsService {
 	public List<FlightDetails> viewAllFlights() throws FlightException {
 		List<FlightDetails> lst=flightRepo.findAll();
 		if(lst.isEmpty())
-			throw new FlightException();
+			throw new FlightException("Flight Not Found");
 		
 		return lst;
 	}
