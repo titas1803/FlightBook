@@ -32,7 +32,7 @@ public class FlightController {
 
 	@PostMapping("addflight")
 	public FlightDetails addFlight(@Valid @RequestBody FlightDetailsDto flightDto,
-			@RequestHeader("token-ID") String tokenid, BindingResult br) throws FlightException, LoginException, ValidationException {
+			@RequestHeader("token-id") String tokenid, BindingResult br) throws FlightException, LoginException, ValidationException {
 		if (loginSer.verifyLogin(tokenid)) {
 			if (br.hasErrors())
 				throw new ValidationException(br.getFieldErrors());
