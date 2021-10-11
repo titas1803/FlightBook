@@ -15,9 +15,9 @@ import com.cg.Dto.BookingDetailsDto;
 import com.cg.exceptions.BookingExceptions;
 import com.cg.exceptions.ScheduleException;
 import com.cg.exceptions.UserException;
+import com.cg.exceptions.ValidationException;
 import com.cg.model.BookingDetails;
 import com.cg.service.BookingDetailsService;
-import com.cg.util.FlightBookingConstants;
 import com.cg.util.SuccessMessage;
 
 @RestController
@@ -27,11 +27,11 @@ public class BookingController {
 	private BookingDetailsService bookingService;
 	
 	@PostMapping("/addbooking")
-    public BookingDetails addBooking(@RequestBody BookingDetailsDto bookingDto, BindingResult br ) throws UserException, ScheduleException, BookingExceptions
+    public BookingDetails addBooking(@RequestBody BookingDetailsDto bookingDto, BindingResult br ) throws UserException, ScheduleException, ValidationException
     {
 		if(br.hasErrors())
 		{
-			throw new BookingExceptions(br.getFieldErrors());
+			throw new ValidationException(br.getFieldErrors());
 		}
         BookingDetails bookings = bookingService.addBooking(bookingDto);
         return bookings;

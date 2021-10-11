@@ -12,9 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cg.Dto.ScheduleDto;
-import com.cg.exceptions.BookingExceptions;
 import com.cg.exceptions.ScheduleException;
-import com.cg.model.BookingDetails;
+import com.cg.exceptions.ValidationException;
 import com.cg.model.Schedule;
 import com.cg.service.ScheduleService;
 import com.cg.util.SuccessMessage;
@@ -26,11 +25,11 @@ public class ScheduleController {
 	private ScheduleService scheduleService;
 	
 	@PostMapping("/addschedule")
-	public Schedule addSchedule(@RequestBody ScheduleDto scheduleDto, BindingResult br) throws ScheduleException
+	public Schedule addSchedule(@RequestBody ScheduleDto scheduleDto, BindingResult br) throws ValidationException
 	{
 		if(br.hasErrors())
 		{
-			throw new ScheduleException();
+			throw new ValidationException(br.getFieldErrors());
 		}
 		Schedule sch = scheduleService.addSchedule(scheduleDto);
 		return sch;
