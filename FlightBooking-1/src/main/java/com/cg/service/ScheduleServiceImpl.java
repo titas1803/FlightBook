@@ -10,6 +10,7 @@ import com.cg.Dto.ScheduleDto;
 import com.cg.exceptions.ScheduleException;
 import com.cg.model.Schedule;
 import com.cg.repository.ScheduleRepository;
+import com.cg.util.FlightBookingConstants;
 
 @Service
 public class ScheduleServiceImpl implements ScheduleService {
@@ -33,16 +34,16 @@ public class ScheduleServiceImpl implements ScheduleService {
 	public String deleteSchedule(Integer scheduleId) throws ScheduleException {
 		Optional<Schedule> optSchedule=scheduleRepo.findById(scheduleId);
 		if(!optSchedule.isPresent())
-			throw new ScheduleException("Schedule Not Found");
+			throw new ScheduleException(FlightBookingConstants.SCHEDULE_ID_NOT_FOUND);
 		scheduleRepo.deleteById(scheduleId);
-		return "Schedule with Schedule ID "+scheduleId+" deleted";
+		return FlightBookingConstants.SUCCESSFULLY_DELETED+scheduleId;
 	}
 
 	@Override
 	public Schedule viewbyScheduleId(Integer scheduleId) throws ScheduleException {
 		Optional<Schedule> optSchedule=scheduleRepo.findById(scheduleId);
 		if(!optSchedule.isPresent())
-			throw new ScheduleException("Schedule Not Found");
+			throw new ScheduleException(FlightBookingConstants.SCHEDULE_ID_NOT_FOUND);
 		return optSchedule.get();
 	}
 
@@ -51,7 +52,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 	public List<Schedule> viewAllSchedule() throws ScheduleException {
 		List<Schedule> lst=scheduleRepo.findAll();
 		if(lst.isEmpty())
-			throw new ScheduleException("Schedule Not Found");
+			throw new ScheduleException(FlightBookingConstants.SCHEDULE_NOT_FOUND);
 		return lst;
 	}
 

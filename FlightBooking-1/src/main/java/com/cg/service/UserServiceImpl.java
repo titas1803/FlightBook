@@ -12,6 +12,7 @@ import com.cg.model.Login;
 import com.cg.model.User;
 import com.cg.repository.LoginRepository;
 import com.cg.repository.UserRepository;
+import com.cg.util.FlightBookingConstants;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -29,12 +30,12 @@ public class UserServiceImpl implements UserService{
 		
 		Optional<User> optUserbyCon= userRepo.findByContact(userDto.getPhoneNumber());
 		if(optUserbyCon.isPresent()) {
-			throw new UserException("User with same phone no. Already exists");
+			throw new UserException(FlightBookingConstants.PHONE_NUMBER_ALREADY_EXISTS);
 		}
 		
 		Optional<User> optUserbyEmail= userRepo.findByEmail(userDto.getEmail());
 		if(optUserbyEmail.isPresent()) {
-			throw new UserException("User with same emailId Already exists");
+			throw new UserException(FlightBookingConstants.EMAILID_ALREADY_EXISTS);
 		}
 		
 		User user= new User();
@@ -55,7 +56,7 @@ public class UserServiceImpl implements UserService{
 	public List<User> viewAllUser() throws UserException{
 		List<User> usrlst = userRepo.findAll();
 		if(usrlst.isEmpty())
-			throw new UserException("No User Found");
+			throw new UserException(FlightBookingConstants.USER_NOT_FOUND);
 		usrlst.sort((u1,u2)-> u1.getUserName().compareTo(u2.getUserName()));
 		return usrlst;
 		
@@ -65,7 +66,7 @@ public class UserServiceImpl implements UserService{
 	public User viewUserbyId(Integer userId) throws UserException{
 		Optional<User> optUser = userRepo.findById(userId);
 		if (!optUser.isPresent()) {
-			throw new UserException("User Not Found");
+			throw new UserException(FlightBookingConstants.USER_ID_NOT_FOUND);
 		}
 		return optUser.get();
 	}
@@ -74,9 +75,9 @@ public class UserServiceImpl implements UserService{
 	public String deleteUser(Integer userId) throws UserException{
 		Optional<User> optUser = userRepo.findById(userId);
 		if (!optUser.isPresent()) {
-			throw new UserException("User Not Found");
+			throw new UserException(FlightBookingConstants.USER_ID_NOT_FOUND);
 		}
 		userRepo.deleteById(userId);
-		return "User deleted with Id "+userId;
+		return FlightBookingConstants.SUCCESSFULLY_DELETED+userId;
 	}
 }

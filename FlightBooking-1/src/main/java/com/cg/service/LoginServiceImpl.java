@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.cg.exceptions.LoginException;
 import com.cg.model.Login;
 import com.cg.repository.LoginRepository;
+import com.cg.util.FlightBookingConstants;
 
 public class LoginServiceImpl implements LoginService {
 	
@@ -69,7 +70,7 @@ public class LoginServiceImpl implements LoginService {
 	
 	public boolean verifyLogin(String tokenId) throws LoginException {
 		if (!authMap.containsKey(tokenId)) {
-			throw new LoginException("Invalid Login token");
+			throw new LoginException(FlightBookingConstants.INVALID_TOKEN);
 		}
 		return true;
 	}
@@ -80,10 +81,10 @@ public class LoginServiceImpl implements LoginService {
 	public Login doLogin(Integer userId, String password) throws LoginException{
 		Optional<Login> optLogin = loginRepo.findById(userId);
 		if(!optLogin.isPresent())
-			throw new LoginException("User not Found");
+			throw new LoginException(FlightBookingConstants.USER_ID_NOT_FOUND);
 		Login login = optLogin.get();
 		if(!login.getPassword().contentEquals(encryptString(password))) {
-			throw new LoginException("Password doesn't match");
+			throw new LoginException(FlightBookingConstants.INCORRECT_PASSWORD);
 		}
 		return login;
 	}

@@ -17,6 +17,7 @@ import com.cg.model.User;
 import com.cg.repository.BookingRepository;
 import com.cg.repository.ScheduleRepository;
 import com.cg.repository.UserRepository;
+import com.cg.util.FlightBookingConstants;
 
 @Service
 public class BookingDetailsServiceImpl implements BookingDetailsService {
@@ -36,12 +37,12 @@ public class BookingDetailsServiceImpl implements BookingDetailsService {
 		
 		Optional<User> optUser = userRepo.findById(bookingdto.getUserId());
 		if(!optUser.isPresent()) {
-			throw new UserException("User not found in this id");
+			throw new UserException(FlightBookingConstants.USER_ID_NOT_FOUND);
 		}
 		
 		Optional<Schedule> optSchedule = scheduleRepo.findById(bookingdto.getScheduleId());
 		if(!optSchedule.isPresent()) {
-			throw new ScheduleException("Schedule not found in this ID");
+			throw new ScheduleException(FlightBookingConstants.SCHEDULE_ID_NOT_FOUND);
 		}
 		
 		bookingdetails.setUser(optUser.get());
@@ -56,18 +57,18 @@ public class BookingDetailsServiceImpl implements BookingDetailsService {
 	public String deleteBooking(Integer ticketId) throws BookingExceptions {
 		Optional<BookingDetails> optBooking = bookingRepo.findById(ticketId);
 		if(!optBooking.isPresent()) {
-			throw new BookingExceptions("Booking Not Found");
+			throw new BookingExceptions(FlightBookingConstants.BOOKING_ID_NOT_FOUND);
 		}
 		bookingRepo.deleteById(ticketId);
-		return "Successfully Deleted "+ticketId;	
+		return FlightBookingConstants.SUCCESSFULLY_DELETED+ticketId;	
 		}
 	
 	@Override
-	public List<BookingDetails> viewAllBookings() throws AirlineExceptions{
+	public List<BookingDetails> viewAllBookings() throws BookingExceptions{
 		List<BookingDetails> listOfBookings = bookingRepo.findAll();
 		if(listOfBookings.isEmpty())
 		{
-			throw new AirlineExceptions("No Airlines Found");
+			throw new BookingExceptions(FlightBookingConstants.AIRLINE_NOT_FOUND);
 		}
 		return listOfBookings;
 	}
@@ -76,7 +77,7 @@ public class BookingDetailsServiceImpl implements BookingDetailsService {
 	public BookingDetails viewById(Integer ticketId) throws BookingExceptions {
 	Optional<BookingDetails> optBookings = bookingRepo.findById(ticketId);
 	if(!optBookings.isPresent()){
-		throw new BookingExceptions("No Bookings Found");
+		throw new BookingExceptions(FlightBookingConstants.BOOKING_NOT_FOUND);
 	}
 	return optBookings.get();
 	}

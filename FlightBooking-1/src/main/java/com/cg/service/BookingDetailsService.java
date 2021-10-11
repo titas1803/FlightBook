@@ -15,7 +15,7 @@ public interface BookingDetailsService  {
 
 	String deleteBooking(Integer ticketId) throws BookingExceptions;
 
-	List<BookingDetails> viewAllBookings() throws AirlineExceptions;
+	List<BookingDetails> viewAllBookings() throws BookingExceptions;
 
 	BookingDetails viewById(Integer ticketId) throws BookingExceptions;
 

@@ -10,6 +10,7 @@ import com.cg.Dto.AirlinesDetailsDto;
 import com.cg.exceptions.AirlineExceptions;
 import com.cg.model.AirlineDetails;
 import com.cg.repository.AirlineDetailsRepository;
+import com.cg.util.FlightBookingConstants;
 
 @Service
 public class AirlinesDetailsServiceImpl implements AirlinesDetailsService{
@@ -31,10 +32,10 @@ public class AirlinesDetailsServiceImpl implements AirlinesDetailsService{
 	public String deleteAirline(Integer airlineId) throws AirlineExceptions {
 		Optional<AirlineDetails> optAirline = airlineRepo.findById(airlineId);
 		if(!optAirline.isPresent()) {
-			throw new AirlineExceptions("Airlne Not Found");
+			throw new AirlineExceptions(FlightBookingConstants.AIRLINE_NOT_FOUND);
 		}
 		airlineRepo.deleteById(airlineId);
-		return "Successfully Deleted "+airlineId;	
+		return FlightBookingConstants.SUCCESSFULLY_DELETED+airlineId;	
 	}
 	
 	@Override
@@ -42,7 +43,7 @@ public class AirlinesDetailsServiceImpl implements AirlinesDetailsService{
 		List<AirlineDetails> listOfAirlines = airlineRepo.findAll();
 		if(listOfAirlines.isEmpty())
 		{
-			throw new AirlineExceptions("No Airlines Found");
+			throw new AirlineExceptions(FlightBookingConstants.AIRLINE_NOT_FOUND);
 		}
 		return listOfAirlines;
 	}

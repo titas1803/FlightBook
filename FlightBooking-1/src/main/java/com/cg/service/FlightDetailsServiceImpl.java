@@ -10,6 +10,7 @@ import com.cg.Dto.FlightDetailsDto;
 import com.cg.exceptions.FlightException;
 import com.cg.model.FlightDetails;
 import com.cg.repository.FlightRepository;
+import com.cg.util.FlightBookingConstants;
 
 @Service
 public class FlightDetailsServiceImpl implements FlightDetailsService {
@@ -35,14 +36,14 @@ public class FlightDetailsServiceImpl implements FlightDetailsService {
 			throw new FlightException();
 		flightRepo.deleteById(flightId);
 		
-		return "Flight with ID "+flightId+" has been deleted";
+		return FlightBookingConstants.SUCCESSFULLY_DELETED+flightId;
 	}
 
 	@Override
 	public FlightDetails viewById(Integer flightId) throws FlightException {
 		Optional<FlightDetails> optFlight=flightRepo.findById(flightId);
 		if(!optFlight.isPresent())
-			throw new FlightException("Flight Not Found");
+			throw new FlightException(FlightBookingConstants.FLIGHT_ID_NOT_FOUND);
 		return optFlight.get();
 	}
 
@@ -50,7 +51,7 @@ public class FlightDetailsServiceImpl implements FlightDetailsService {
 	public List<FlightDetails> viewAllFlights() throws FlightException {
 		List<FlightDetails> lst=flightRepo.findAll();
 		if(lst.isEmpty())
-			throw new FlightException("Flight Not Found");
+			throw new FlightException(FlightBookingConstants.FLIGHT_NOT_FOUND);
 		
 		return lst;
 	}

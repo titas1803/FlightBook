@@ -6,28 +6,30 @@ import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Length;
 
+import com.cg.util.FlightBookingConstants;
+
 public class UserDto {
 
 	private Integer userId;
 
-	@NotBlank(message = "User Name cannot be blank")
+	@NotBlank(message = FlightBookingConstants.USERNAME_REQUIRED)
 	private String userName;
 
-	@Length(min = 10, max = 10, message = "Enter valid phone number")
+	@Length(min = 10, max = 10, message = FlightBookingConstants.INVALID_PHONE_NUMBER)
 	private String phoneNumber;
 
 	@NotBlank
-	@Email(message = "Enter valid email")
+	@Email(message = FlightBookingConstants.INVALID_EMAILID)
 	private String email;
 
 	private String location;
 
-	@NotBlank(message = "Password Incorrect")
+	@NotBlank(message = FlightBookingConstants.PASSWORD_REQUIRED)
 	private String password;
 
 	
-	@NotBlank(message = "Role is Mandatory")
-	@Pattern(regexp = "(user|admin)", message = "Role must be User or Admin")
+	@NotBlank(message = FlightBookingConstants.ROLE_REQUIRED)
+	@Pattern(regexp = "(user|admin)", message = FlightBookingConstants.USER_OR_ADMIN)
 	private String role;
 	
 	public String getPassword() {
