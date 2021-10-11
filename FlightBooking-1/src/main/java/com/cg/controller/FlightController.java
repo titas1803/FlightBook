@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import com.cg.Dto.FlightDetailsDto;
 import com.cg.exceptions.FlightException;
 import com.cg.exceptions.LoginException;
+import com.cg.exceptions.ValidationException;
 import com.cg.model.FlightDetails;
 import com.cg.service.FlightDetailsService;
 import com.cg.service.LoginService;
@@ -30,24 +31,24 @@ public class FlightController {
 	public LoginService loginSer;
 
 	@PostMapping("addflight")
-	public SuccessMessage addFlight(@Valid @RequestBody FlightDetailsDto flightDto,
-			@RequestHeader("token-ID") String tokenid, BindingResult br) throws FlightException, LoginException {
+	public FlightDetails addFlight(@Valid @RequestBody FlightDetailsDto flightDto,
+			@RequestHeader("token-ID") String tokenid, BindingResult br) throws FlightException, LoginException, ValidationException {
 		if (loginSer.verifyLogin(tokenid)) {
 			if (br.hasErrors())
-				throw new FlightException();
+				throw new ValidationException(br.getFieldErrors());
 			FlightDetails flightId = flightSer.addFlight(flightDto);
 
-			return new SuccessMessage("Flight Created" + flightId.getFlightId());
+			return flightId;
 		}
 		throw new LoginException();
 	}
 
 	@DeleteMapping("deletebyid/{flightId}")
 	public SuccessMessage deleteFlight(@Valid @PathVariable("flightId") Integer flightid,
-			@RequestHeader("token-id") String tokenid, BindingResult br) throws LoginException, FlightException {
+			@RequestHeader("token-id") String tokenid, BindingResult br) throws LoginException, FlightException, ValidationException {
 		if (loginSer.verifyLogin(tokenid)) {
 			if (br.hasErrors())
-				throw new FlightException();
+				throw new ValidationException(br.getFieldErrors());
 			String deletedflight = flightSer.deleteFlight(flightid);
 			return new SuccessMessage(deletedflight);
 		}
@@ -56,10 +57,10 @@ public class FlightController {
 
 	@GetMapping("viewbyid/{flightid}")
 	public FlightDetails viewbyid(@Valid @PathVariable("flightid") Integer flightId,
-			@RequestHeader("token-id") String tokenId, BindingResult br) throws FlightException, LoginException {
+			@RequestHeader("token-id") String tokenId, BindingResult br) throws FlightException, LoginException, ValidationException {
 		if(loginSer.verifyLogin(tokenId)) {
 			if(br.hasErrors())
-				throw new FlightException();
+				throw new ValidationException(br.getFieldErrors());
 			return flightSer.viewById(flightId);
 		}
 		throw new LoginException();
