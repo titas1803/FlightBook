@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cg.Dto.AirlinesDetailsDto;
 import com.cg.exceptions.AirlineExceptions;
+import com.cg.exceptions.ValidationException;
 import com.cg.model.AirlineDetails;
 import com.cg.service.AirlinesDetailsService;
 import com.cg.util.SuccessMessage;
@@ -24,11 +25,11 @@ public class AirlinesController {
 	private AirlinesDetailsService airlineService;
 	
 	@PostMapping("/addairline")
-	public AirlineDetails addAirline(@RequestBody AirlinesDetailsDto airlineDto, BindingResult br) throws AirlineExceptions
+	public AirlineDetails addAirline(@RequestBody AirlinesDetailsDto airlineDto, BindingResult br) throws ValidationException
 	{
 		if(br.hasErrors())
 		{
-			throw new AirlineExceptions();
+			throw new ValidationException(br.getFieldErrors());
 		}
 		AirlineDetails airlines = airlineService.addAirline(airlineDto);
 		return airlines;
