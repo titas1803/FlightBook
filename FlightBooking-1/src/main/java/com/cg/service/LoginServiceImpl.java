@@ -5,12 +5,14 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.cg.exceptions.LoginException;
 import com.cg.model.Login;
 import com.cg.repository.LoginRepository;
 import com.cg.util.FlightBookingConstants;
 
+@Service
 public class LoginServiceImpl implements LoginService {
 	
 	@Autowired
@@ -19,11 +21,12 @@ public class LoginServiceImpl implements LoginService {
 	Map<String, Login> authMap = new HashMap<>();
 	
 	
-	
+	@Override
 	public Map<String, Login> getAuthMap() {
 		return authMap;
 	}
 
+	@Override
 	public String generateToken(Login login) {
 		String token = encryptLogin(login);
 		authMap.put(token, login);
@@ -78,6 +81,8 @@ public class LoginServiceImpl implements LoginService {
 	/*
 	 * Method for logging into an account
 	 */
+	
+	@Override
 	public Login doLogin(Integer userId, String password) throws LoginException{
 		Optional<Login> optLogin = loginRepo.findById(userId);
 		if(!optLogin.isPresent())
