@@ -19,4 +19,6 @@ public interface LoginService {
 
 	Map<String, Login> getAuthMap();
 
+	boolean verifyLogin(String tokenId) throws LoginException;
+
 }
