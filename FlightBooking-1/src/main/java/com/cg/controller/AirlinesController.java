@@ -9,14 +9,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cg.Dto.AirlinesDetailsDto;
 import com.cg.exceptions.AirlineExceptions;
+import com.cg.exceptions.LoginException;
 import com.cg.exceptions.ValidationException;
 import com.cg.model.AirlineDetails;
 import com.cg.service.AirlinesDetailsService;
+import com.cg.service.LoginService;
 import com.cg.util.SuccessMessage;
+
+import ch.qos.logback.core.LogbackException;
 
 @RestController
 public class AirlinesController {
@@ -24,26 +29,39 @@ public class AirlinesController {
 	@Autowired
 	private AirlinesDetailsService airlineService;
 	
+	@Autowired
+	private LoginService loginService;
+	
 	@PostMapping("/addairline")
-	public AirlineDetails addAirline(@RequestBody AirlinesDetailsDto airlineDto, BindingResult br) throws ValidationException
+	public AirlineDetails addAirline(@RequestBody AirlinesDetailsDto airlineDto, BindingResult br,
+			@RequestHeader("token-id") String tokenid) throws ValidationException, LoginException
 	{
+		if(loginService.verifyLogin(tokenid)) {
 		if(br.hasErrors())
 		{
 			throw new ValidationException(br.getFieldErrors());
 		}
 		AirlineDetails airlines = airlineService.addAirline(airlineDto);
 		return airlines;
+		}
+		throw new LoginException();
 	}
 	
 	@DeleteMapping("/deleteairline/{id}")
-	public SuccessMessage deleteAirline(@PathVariable("id") Integer airlineId) throws AirlineExceptions
+	public SuccessMessage deleteAirline(@PathVariable("id") Integer airlineId, @RequestHeader("token-id") String tokenid) throws AirlineExceptions, LoginException
 	{
+		if(loginService.verifyLogin(tokenid)) {
 		return new SuccessMessage(airlineService.deleteAirline(airlineId));
+		}
+		throw new LoginException();
 	}
 	
 	@GetMapping("/getallairlines")
-	public List<AirlineDetails> viewAllAirlines() throws AirlineExceptions
+	public List<AirlineDetails> viewAllAirlines(@RequestHeader("token-id") String tokenid) throws AirlineExceptions, LoginException
 	{
+		if(loginService.verifyLogin(tokenid)) {
 		return airlineService.viewAllAirlines();
+		}
+		throw new LoginException();
 	}
 }
