@@ -3,6 +3,7 @@ package com.cg.util;
 public class FlightBookingConstants {
 	
 	public static final String USERNAME_REQUIRED="User Name cannot be blank";
+	public static final String USER_ID_REQUIRED="User Name cannot be blank";
 	public static final String INVALID_PHONE_NUMBER="Enter valid phone number";
 	public static final String PHONE_NUMBER_ALREADY_EXISTS = "User with same phone no. Already exists";
 	public static final String EMAILID_ALREADY_EXISTS = "User with same email Id Already exists";
@@ -23,5 +24,6 @@ public class FlightBookingConstants {
 	public static final String SCHEDULE_NOT_FOUND="No Schedule found";
 	public static final String INVALID_TOKEN= "Invalid login token";
 	public static final String INCORRECT_PASSWORD="Password doesn't match";
+	public static final String LOGGED_OUT="You are successfully logged out";
 	
 }
