@@ -64,7 +64,7 @@ public class FlightController {
 			return flightSer.viewById(flightId);
 		}
 		throw new LoginException();
-
+		
 	}
 	
 	@GetMapping("viewallflights")
