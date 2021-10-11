@@ -37,7 +37,6 @@ public class FlightController {
 			if (br.hasErrors())
 				throw new ValidationException(br.getFieldErrors());
 			FlightDetails flightId = flightSer.addFlight(flightDto);
-
 			return flightId;
 		}
 		throw new LoginException();
