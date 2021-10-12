@@ -7,8 +7,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -26,8 +28,9 @@ public class Schedule {
 	private String destination;
 	private Integer seatsAvailable;
 	
-	@ManyToMany
-	private List<FlightDetails> flightdetails;
+	@OneToOne
+	@JoinColumn(name="flightId", referencedColumnName = "flightId")
+	private FlightDetails flightdetails;
 	
 	@OneToMany(mappedBy = "schedules")
 	private List<BookingDetails> bookingdetails;
@@ -80,11 +83,11 @@ public class Schedule {
 		this.seatsAvailable = seatsAvailable;
 	}
 
-	public List<FlightDetails> getFlightdetails() {
+	public FlightDetails getFlightdetails() {
 		return flightdetails;
 	}
 
-	public void setFlightdetails(List<FlightDetails> flightdetails) {
+	public void setFlightdetails(FlightDetails flightdetails) {
 		this.flightdetails = flightdetails;
 	}
 

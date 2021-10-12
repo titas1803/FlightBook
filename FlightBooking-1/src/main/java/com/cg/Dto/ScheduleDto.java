@@ -1,8 +1,6 @@
 package com.cg.Dto;
 
 import java.time.LocalTime;
-import java.util.List;
-
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotBlank;
 
@@ -22,7 +20,7 @@ public class ScheduleDto {
 	
 	private Integer seatsAvailable;
 	
-	private List<Integer> flightId;
+	private Integer flightId;
 
 	public Integer getScheduleId() {
 		return scheduleId;
@@ -72,11 +70,11 @@ public class ScheduleDto {
 		this.seatsAvailable = seatsAvailable;
 	}
 
-	public List<Integer> getFlightId() {
+	public Integer getFlightId() {
 		return flightId;
 	}
 
-	public void setFlightId(List<Integer> flightId) {
+	public void setFlightId(Integer flightId) {
 		this.flightId = flightId;
 	}
 	

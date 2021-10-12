@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.cg.Dto.FlightDetailsDto;
 import com.cg.exceptions.FlightException;
@@ -19,6 +20,7 @@ public class FlightDetailsServiceImpl implements FlightDetailsService {
 	private FlightRepository flightRepo;
 
 	@Override
+	@Transactional
 	public FlightDetails addFlight(FlightDetailsDto flightDto) {
 		
 		FlightDetails flight=new FlightDetails();

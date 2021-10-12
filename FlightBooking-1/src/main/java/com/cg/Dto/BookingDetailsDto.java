@@ -13,6 +13,7 @@ public class BookingDetailsDto {
 	@NotNull(message = FlightBookingConstants.SCHEDULE_ID_REQUIRED)
 	private Integer scheduleId;
 	
+	private Integer noOfPersons;
 	
 	public Integer getTicketId() {
 		return ticketId;
@@ -32,6 +33,12 @@ public class BookingDetailsDto {
 	}
 	public void setScheduleId(Integer scheduleId) {
 		this.scheduleId = scheduleId;
+	}
+	public Integer getNoOfPersons() {
+		return noOfPersons;
+	}
+	public void setNoOfPersons(Integer noOfPersons) {
+		this.noOfPersons = noOfPersons;
 	}
 	
 	

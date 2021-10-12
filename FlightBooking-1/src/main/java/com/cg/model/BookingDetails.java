@@ -33,7 +33,9 @@ public class BookingDetails {
 	
 	@ManyToOne
 	@JoinColumn(name= "scheduleId")
-	private Schedule schedules;
+	private Schedule schedule;
+	
+	private Integer noOfPersons;
 
 	public Integer getTicketId() {
 		return ticketId;
@@ -52,11 +54,21 @@ public class BookingDetails {
 	}
 
 	public Schedule getSchedule() {
-		return schedules;
+		return schedule;
 	}
 
 	public void setSchedule(Schedule schedule) {
-		this.schedules = schedule;
+		this.schedule = schedule;
 	}
+
+	public Integer getNoOfPersons() {
+		return noOfPersons;
+	}
+
+	public void setNoOfPersons(Integer noOfPersons) {
+		this.noOfPersons = noOfPersons;
+	}
+	
+	
 	
 }

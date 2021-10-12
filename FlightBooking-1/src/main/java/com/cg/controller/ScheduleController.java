@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cg.Dto.ScheduleDto;
+import com.cg.exceptions.FlightException;
 import com.cg.exceptions.LoginException;
 import com.cg.exceptions.ScheduleException;
 import com.cg.exceptions.ValidationException;
@@ -32,7 +33,7 @@ public class ScheduleController {
 
 	@PostMapping("/addschedule")
 	public Schedule addSchedule(@RequestBody ScheduleDto scheduleDto, BindingResult br,
-			@RequestHeader("token-id") String tokenid) throws ValidationException, LoginException {
+			@RequestHeader("token-id") String tokenid) throws ValidationException, LoginException, FlightException {
 		if (loginService.verifyLogin(tokenid)) {
 			if (br.hasErrors()) {
 				throw new ValidationException(br.getFieldErrors());

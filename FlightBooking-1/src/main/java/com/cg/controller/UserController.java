@@ -1,32 +1,58 @@
 package com.cg.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.cg.Dto.UserDto;
+import com.cg.exceptions.LoginException;
 import com.cg.exceptions.UserException;
 import com.cg.exceptions.ValidationException;
 import com.cg.model.User;
+import com.cg.service.LoginService;
 import com.cg.service.UserService;
 import com.cg.util.FlightBookingConstants;
-import com.cg.util.SuccessMessage;
 
+@RestController
 public class UserController {
 	
 	@Autowired
 	private UserService userSer;
 	
+	@Autowired
+	private LoginService loginSer;
+	
 	@PostMapping("createuser")
-	public SuccessMessage createUser(@Valid @RequestBody UserDto userDto, BindingResult br) throws ValidationException, UserException {
+	public User createUser(@Valid @RequestBody UserDto userDto, BindingResult br) throws ValidationException, UserException {
 		if(br.hasErrors())
 			throw new ValidationException(br.getFieldErrors());
 		User createdUser=userSer.addUser(userDto);
-		return new SuccessMessage(FlightBookingConstants.USER_NOT_FOUND+ createdUser.getUserId());
+		return createdUser;
 	}
 	
+	@GetMapping("viewusers")
+	public List<User> viewAllUsers(@RequestHeader("token-id") String tokenId) throws LoginException, UserException{
+		if(loginSer.verifyLogin(tokenId)){
+			return userSer.viewAllUser();
+		}
+		throw new LoginException(FlightBookingConstants.INVALID_TOKEN);
+	}
+	
+	@GetMapping("viewUserbyId/{userId")
+	public User viewbyId(@PathVariable("userId") Integer userId, @RequestHeader("token-id") String tokenId) throws LoginException, UserException{
+		if(loginSer.verifyLogin(tokenId)) {
+			return userSer.viewUserbyId(userId);
+		}
+		throw new LoginException(FlightBookingConstants.INVALID_TOKEN);
+	}
 	
 }

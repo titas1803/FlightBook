@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.cg.Dto.AirlinesDetailsDto;
 import com.cg.exceptions.AirlineExceptions;
@@ -19,6 +20,7 @@ public class AirlinesDetailsServiceImpl implements AirlinesDetailsService{
 	private AirlineDetailsRepository airlineRepo;
 
 	@Override
+	@Transactional
 	public AirlineDetails addAirline(AirlinesDetailsDto airlinedto) {
 
 		AirlineDetails airline = new AirlineDetails();

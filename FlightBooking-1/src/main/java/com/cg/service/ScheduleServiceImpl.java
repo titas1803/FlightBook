@@ -3,12 +3,17 @@ package com.cg.service;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cg.Dto.ScheduleDto;
+import com.cg.exceptions.FlightException;
 import com.cg.exceptions.ScheduleException;
+import com.cg.model.FlightDetails;
 import com.cg.model.Schedule;
+import com.cg.repository.FlightRepository;
 import com.cg.repository.ScheduleRepository;
 import com.cg.util.FlightBookingConstants;
 
@@ -17,20 +22,29 @@ public class ScheduleServiceImpl implements ScheduleService {
 	
 	@Autowired
 	public ScheduleRepository scheduleRepo;
+	
+	@Autowired
+	public FlightRepository flightRepo;
 
 	@Override
-	public Schedule addSchedule(ScheduleDto scheduleDto) {
+	@Transactional
+	public Schedule addSchedule(ScheduleDto scheduleDto) throws FlightException {
+		Optional<FlightDetails> optFlight = flightRepo.findById(scheduleDto.getFlightId());
+		if(!optFlight.isPresent())
+			throw new FlightException(FlightBookingConstants.FLIGHT_ID_NOT_FOUND);	
 		Schedule schedule=new Schedule();
 		schedule.setArrivaltime(scheduleDto.getArrivaltime());
 		schedule.setDeparturetime(scheduleDto.getDeparturetime());
 		schedule.setDestination(scheduleDto.getDestination());
 		schedule.setSource(scheduleDto.getSource());
-		schedule.setSeatsAvailable(scheduleDto.getSeatsAvailable());
+		schedule.setFlightdetails(optFlight.get());
+		schedule.setSeatsAvailable(schedule.getFlightdetails().getNoOfSeats());
 		Schedule sc=scheduleRepo.saveAndFlush(schedule);
 		return sc;
 	}
 
 	@Override
+	@Transactional
 	public String deleteSchedule(Integer scheduleId) throws ScheduleException {
 		Optional<Schedule> optSchedule=scheduleRepo.findById(scheduleId);
 		if(!optSchedule.isPresent())
