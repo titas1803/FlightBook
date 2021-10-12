@@ -32,7 +32,7 @@ public class Schedule {
 	@JoinColumn(name="flightId", referencedColumnName = "flightId")
 	private FlightDetails flightdetails;
 	
-	@OneToMany(mappedBy = "schedules")
+	@OneToMany(mappedBy = "schedule")
 	private List<BookingDetails> bookingdetails;
 
 	public Integer getScheduleId() {
