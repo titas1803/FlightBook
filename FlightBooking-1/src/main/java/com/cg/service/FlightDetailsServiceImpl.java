@@ -29,7 +29,7 @@ public class FlightDetailsServiceImpl implements FlightDetailsService {
 	@Transactional
 	public FlightDetails addFlight(FlightDetailsDto flightDto) throws AirlineExceptions {
 		
-		Optional<AirlineDetails> optAirline = airlineRepo.findById(flightDto.getFlightId());
+		Optional<AirlineDetails> optAirline = airlineRepo.findById(flightDto.getAirLineId());
 		if(!optAirline.isPresent())
 		{
 			throw new AirlineExceptions(FlightBookingConstants.AIRLINE_ID_NOT_FOUND);

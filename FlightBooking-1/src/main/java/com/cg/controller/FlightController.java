@@ -15,12 +15,14 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cg.Dto.FlightDetailsDto;
+import com.cg.exceptions.AirlineExceptions;
 import com.cg.exceptions.FlightException;
 import com.cg.exceptions.LoginException;
 import com.cg.exceptions.ValidationException;
 import com.cg.model.FlightDetails;
 import com.cg.service.FlightDetailsService;
 import com.cg.service.LoginService;
+import com.cg.util.FlightBookingConstants;
 import com.cg.util.SuccessMessage;
 
 @RestController
@@ -34,7 +36,7 @@ public class FlightController {
 
 	@PostMapping("addflight")
 	public FlightDetails addFlight(@Valid @RequestBody FlightDetailsDto flightDto,
-			@RequestHeader("token-id") String tokenid, BindingResult br) throws FlightException, LoginException, ValidationException {
+			@RequestHeader("token-id") String tokenid, BindingResult br) throws FlightException, LoginException, ValidationException, AirlineExceptions {
 		if (loginSer.verifyLogin(tokenid)) {
 			if (br.hasErrors())
 				throw new ValidationException(br.getFieldErrors());
@@ -45,23 +47,19 @@ public class FlightController {
 	}
 
 	@DeleteMapping("deletebyid/{flightId}")
-	public SuccessMessage deleteFlight(@Valid @PathVariable("flightId") Integer flightid,
-			@RequestHeader("token-id") String tokenid, BindingResult br) throws LoginException, FlightException, ValidationException {
+	public SuccessMessage deleteFlight(@PathVariable("flightId") Integer flightId,
+			@RequestHeader("token-id") String tokenid) throws LoginException, FlightException, ValidationException {
 		if (loginSer.verifyLogin(tokenid)) {
-			if (br.hasErrors())
-				throw new ValidationException(br.getFieldErrors());
-			String deletedflight = flightSer.deleteFlight(flightid);
+			String deletedflight = flightSer.deleteFlight(flightId);
 			return new SuccessMessage(deletedflight);
 		}
-		throw new LoginException();
+		throw new LoginException(FlightBookingConstants.INVALID_TOKEN);
 	}
 
 	@GetMapping("viewbyid/{flightid}")
-	public FlightDetails viewbyid(@Valid @PathVariable("flightid") Integer flightId,
-			@RequestHeader("token-id") String tokenId, BindingResult br) throws FlightException, LoginException, ValidationException {
+	public FlightDetails viewbyid(@PathVariable("flightid") Integer flightId,
+			@RequestHeader("token-id") String tokenId) throws FlightException, LoginException, ValidationException {
 		if(loginSer.verifyLogin(tokenId)) {
-			if(br.hasErrors())
-				throw new ValidationException(br.getFieldErrors());
 			return flightSer.viewById(flightId);
 		}
 		throw new LoginException();
