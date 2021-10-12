@@ -47,7 +47,7 @@ public class UserController {
 		throw new LoginException(FlightBookingConstants.INVALID_TOKEN);
 	}
 	
-	@GetMapping("viewUserbyId/{userId")
+	@GetMapping("viewuserbyid/{userId}")
 	public User viewbyId(@PathVariable("userId") Integer userId, @RequestHeader("token-id") String tokenId) throws LoginException, UserException{
 		if(loginSer.verifyLogin(tokenId)) {
 			return userSer.viewUserbyId(userId);
