@@ -1,11 +1,16 @@
 package com.cg.Dto;
 
+import javax.validation.constraints.NotBlank;
+
+import com.cg.util.FlightBookingConstants;
+
 import lombok.Data;
 
 @Data
 public class AirlinesDetailsDto {
 	
 	private Integer airlineId;
+	@NotBlank(message = FlightBookingConstants.AIRLINE_NAME_REQUIRED)
 	private String airlineName;
 	private String airlineLogo;
 	
