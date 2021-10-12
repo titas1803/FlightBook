@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.cg.Dto.FlightDetailsDto;
 import com.cg.exceptions.FlightException;
@@ -22,6 +23,7 @@ import com.cg.service.FlightDetailsService;
 import com.cg.service.LoginService;
 import com.cg.util.SuccessMessage;
 
+@RestController
 public class FlightController {
 
 	@Autowired
