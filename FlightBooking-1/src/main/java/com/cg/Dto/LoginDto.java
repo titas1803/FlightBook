@@ -15,6 +15,7 @@ public class LoginDto {
 	@NotBlank(message = FlightBookingConstants.PASSWORD_REQUIRED)
 	private String password;
 	
+	@NotBlank(message = FlightBookingConstants.ROLE_REQUIRED)
 	private String role;
 
 	public Integer getUserId() {

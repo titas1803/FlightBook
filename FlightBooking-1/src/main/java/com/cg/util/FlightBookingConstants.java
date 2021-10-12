@@ -25,5 +25,6 @@ public class FlightBookingConstants {
 	public static final String INVALID_TOKEN= "Invalid login token";
 	public static final String INCORRECT_PASSWORD="Password doesn't match";
 	public static final String LOGGED_OUT="You are successfully logged out";
-	
+	public static final String SOURCE_REQUIRED="Source place must be entered";
+	public static final String DESTINATION_REQUIRED="Destination place must be entered";
 }
