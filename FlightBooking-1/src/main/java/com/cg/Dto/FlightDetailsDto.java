@@ -1,10 +1,17 @@
 package com.cg.Dto;
 
+import javax.validation.constraints.NotNull;
+
+import com.cg.util.FlightBookingConstants;
+
 public class FlightDetailsDto {
 	
 	private Integer flightId;
+	@NotNull(message = FlightBookingConstants.PRICE_REQUIRED)
 	private Integer price;
+	@NotNull(message = FlightBookingConstants.NO_OF_SEATS_REQUIRED)
 	private Integer noOfSeats;
+	@NotNull(message = FlightBookingConstants.AIRLINE_ID_REQUIRED)
 	private Integer airLineId;
 	
 	public Integer getFlightId() {

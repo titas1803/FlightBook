@@ -29,4 +29,10 @@ public class FlightBookingConstants {
 	public static final String SOURCE_REQUIRED="Source place must be entered";
 	public static final String DESTINATION_REQUIRED="Destination place must be entered";
 	public static final String AIRLINE_NAME_REQUIRED="Please enter Airline Name";
+	public static final String SCHEDULE_ID_REQUIRED = "Enter Schedule id";
+	public static final String PRICE_REQUIRED = "Enter price";
+	public static final String AIRLINE_ID_REQUIRED = "Enter Airline Id";
+	public static final String NO_OF_SEATS_REQUIRED = "Enter No. of Seats here";
+	public static final String ARRIVALTIME_REQUIRED = "Enter arrival time";
+	public static final String LOCALTIME_PRESENT_OR_FUTURE = "Time must be in future or present";
 }

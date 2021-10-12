@@ -3,6 +3,7 @@ package com.cg.Dto;
 import java.time.LocalTime;
 import java.util.List;
 
+import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotBlank;
 
 import com.cg.util.FlightBookingConstants;
@@ -11,11 +12,14 @@ public class ScheduleDto {
 	
 	private Integer scheduleId;
 	private LocalTime departuretime;
+	@NotBlank(message = FlightBookingConstants.ARRIVALTIME_REQUIRED)
+	@FutureOrPresent(message = FlightBookingConstants.LOCALTIME_PRESENT_OR_FUTURE)
 	private LocalTime arrivaltime;
 	@NotBlank(message = FlightBookingConstants.SOURCE_REQUIRED)
 	private String source;
 	@NotBlank(message = FlightBookingConstants.DESTINATION_REQUIRED)
 	private String destination;
+	
 	private Integer seatsAvailable;
 	
 	private List<Integer> flightId;
