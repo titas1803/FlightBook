@@ -8,8 +8,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cg.Dto.FlightDetailsDto;
+import com.cg.exceptions.AirlineExceptions;
 import com.cg.exceptions.FlightException;
+import com.cg.model.AirlineDetails;
 import com.cg.model.FlightDetails;
+import com.cg.repository.AirlineDetailsRepository;
 import com.cg.repository.FlightRepository;
 import com.cg.util.FlightBookingConstants;
 
@@ -18,14 +21,24 @@ public class FlightDetailsServiceImpl implements FlightDetailsService {
 	
 	@Autowired
 	private FlightRepository flightRepo;
+	
+	@Autowired
+	private AirlineDetailsRepository airlineRepo;
 
 	@Override
 	@Transactional
-	public FlightDetails addFlight(FlightDetailsDto flightDto) {
+	public FlightDetails addFlight(FlightDetailsDto flightDto) throws AirlineExceptions {
+		
+		Optional<AirlineDetails> optAirline = airlineRepo.findById(flightDto.getFlightId());
+		if(!optAirline.isPresent())
+		{
+			throw new AirlineExceptions(FlightBookingConstants.AIRLINE_ID_NOT_FOUND);
+		}
 		
 		FlightDetails flight=new FlightDetails();
 		flight.setNoOfSeats(flightDto.getNoOfSeats());
 		flight.setPrice(flightDto.getPrice());
+		flight.setAirLineDetails(optAirline.get());
 		FlightDetails fl=flightRepo.saveAndFlush(flight);
 		
 		return fl;
