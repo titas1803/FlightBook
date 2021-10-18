@@ -21,4 +21,6 @@ public interface LoginService {
 
 	boolean verifyLogin(String tokenId) throws LoginException;
 
+	boolean verifyRole(String tokenId) throws LoginException;
+
 }

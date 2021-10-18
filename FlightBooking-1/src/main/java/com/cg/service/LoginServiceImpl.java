@@ -11,6 +11,7 @@ import com.cg.exceptions.LoginException;
 import com.cg.model.Login;
 import com.cg.repository.LoginRepository;
 import com.cg.util.FlightBookingConstants;
+import com.cg.util.Roles;
 
 @Service
 public class LoginServiceImpl implements LoginService {
@@ -93,6 +94,14 @@ public class LoginServiceImpl implements LoginService {
 			throw new LoginException(FlightBookingConstants.INCORRECT_PASSWORD);
 		}
 		return login;
+	}
+	
+	@Override
+	public boolean verifyRole(String tokenId) throws LoginException {
+		String role= authMap.get(tokenId).getRole();
+		if(role.equals(Roles.ADMIN))
+			return true;
+		throw new LoginException(FlightBookingConstants.ACEESS_DENIED);
 	}
 
 }
