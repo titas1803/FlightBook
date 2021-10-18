@@ -35,7 +35,7 @@ public class ScheduleController {
 	@PostMapping("/addschedule")
 	public Schedule addSchedule(@RequestBody ScheduleDto scheduleDto, BindingResult br,
 			@RequestHeader("token-id") String tokenid) throws ValidationException, LoginException, NotFoundException {
-		if (loginService.verifyLogin(tokenid)) {
+		if (loginService.verifyLogin(tokenid) && loginService.verifyRole(tokenid)) {
 			if (br.hasErrors()) {
 				throw new ValidationException(br.getFieldErrors());
 			}
@@ -48,7 +48,7 @@ public class ScheduleController {
 	@DeleteMapping("/deleteschedule/{id}")
 	public SuccessMessage deleteSchedule(@PathVariable("id") Integer scheduleId,
 			@RequestHeader("token-id") String tokenid) throws LoginException, NotFoundException {
-		if (loginService.verifyLogin(tokenid)) {
+		if (loginService.verifyLogin(tokenid) && loginService.verifyRole(tokenid)) {
 			return new SuccessMessage(scheduleService.deleteSchedule(scheduleId));
 		}
 		throw new LoginException();

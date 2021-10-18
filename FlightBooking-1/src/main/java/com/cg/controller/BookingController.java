@@ -70,7 +70,7 @@ public class BookingController {
 	@GetMapping("/getallbookings")
 	public List<BookingDetails> viewAllBookings(@RequestHeader("token-id") String tokenid)
 			throws LoginException, NotFoundException {
-		if (loginService.verifyLogin(tokenid)) {
+		if (loginService.verifyLogin(tokenid) && loginService.verifyRole(tokenid)) {
 			return bookingService.viewAllBookings();
 		}
 		throw new LoginException();

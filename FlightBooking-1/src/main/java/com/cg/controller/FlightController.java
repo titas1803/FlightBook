@@ -38,7 +38,7 @@ public class FlightController {
 	@PostMapping("addflight")
 	public FlightDetails addFlight(@Valid @RequestBody FlightDetailsDto flightDto,
 			@RequestHeader("token-id") String tokenid, BindingResult br) throws LoginException, ValidationException, NotFoundException {
-		if (loginSer.verifyLogin(tokenid)) {
+		if (loginSer.verifyLogin(tokenid) && loginSer.verifyRole(tokenid)) {
 			if (br.hasErrors())
 				throw new ValidationException(br.getFieldErrors());
 			FlightDetails flightId = flightSer.addFlight(flightDto);
@@ -50,7 +50,7 @@ public class FlightController {
 	@DeleteMapping("deletebyid/{flightId}")
 	public SuccessMessage deleteFlight(@PathVariable("flightId") Integer flightId,
 			@RequestHeader("token-id") String tokenid) throws LoginException, NotFoundException {
-		if (loginSer.verifyLogin(tokenid)) {
+		if (loginSer.verifyLogin(tokenid) && loginSer.verifyRole(tokenid)) {
 			String deletedflight = flightSer.deleteFlight(flightId);
 			return new SuccessMessage(deletedflight);
 		}
@@ -59,8 +59,8 @@ public class FlightController {
 
 	@GetMapping("viewbyid/{flightid}")
 	public FlightDetails viewbyid(@PathVariable("flightid") Integer flightId,
-			@RequestHeader("token-id") String tokenId) throws LoginException, NotFoundException {
-		if(loginSer.verifyLogin(tokenId)) {
+			@RequestHeader("token-id") String tokenid) throws LoginException, NotFoundException {
+		if(loginSer.verifyLogin(tokenid) && loginSer.verifyRole(tokenid)) {
 			return flightSer.viewById(flightId);
 		}
 		throw new LoginException();
@@ -69,7 +69,7 @@ public class FlightController {
 	
 	@GetMapping("viewallflights")
 	public List<FlightDetails> viewallflight(@RequestHeader("token-id") String tokenid) throws LoginException, NotFoundException{
-		if(loginSer.verifyLogin(tokenid)) {
+		if(loginSer.verifyLogin(tokenid) && loginSer.verifyRole(tokenid)) {
 			List<FlightDetails> lst=flightSer.viewAllFlights();
 			return lst;
 		}

@@ -37,7 +37,7 @@ public class AirlinesController {
 	public AirlineDetails addAirline(@RequestBody AirlinesDetailsDto airlineDto, BindingResult br,
 			@RequestHeader("token-id") String tokenid) throws ValidationException, LoginException
 	{
-		if(loginService.verifyLogin(tokenid)) {
+		if(loginService.verifyLogin(tokenid) && loginService.verifyRole(tokenid)) {
 		if(br.hasErrors())
 		{
 			throw new ValidationException(br.getFieldErrors());
@@ -51,7 +51,7 @@ public class AirlinesController {
 	@DeleteMapping("/deleteairline/{id}")
 	public SuccessMessage deleteAirline(@PathVariable("id") Integer airlineId, @RequestHeader("token-id") String tokenid) throws LoginException, NotFoundException
 	{
-		if(loginService.verifyLogin(tokenid)) {
+		if(loginService.verifyLogin(tokenid) && loginService.verifyRole(tokenid)) {
 		return new SuccessMessage(airlineService.deleteAirline(airlineId));
 		}
 		throw new LoginException();

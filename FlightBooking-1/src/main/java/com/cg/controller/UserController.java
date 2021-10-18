@@ -42,8 +42,8 @@ public class UserController {
 	}
 	
 	@GetMapping("viewusers")
-	public List<User> viewAllUsers(@RequestHeader("token-id") String tokenId) throws LoginException, NotFoundException{
-		if(loginSer.verifyLogin(tokenId)){
+	public List<User> viewAllUsers(@RequestHeader("token-id") String tokenid) throws LoginException, NotFoundException{
+		if(loginSer.verifyLogin(tokenid) && loginSer.verifyRole(tokenid)){
 			return userSer.viewAllUser();
 		}
 		throw new LoginException(FlightBookingConstants.INVALID_TOKEN);
