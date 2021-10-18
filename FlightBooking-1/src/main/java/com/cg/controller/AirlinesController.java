@@ -39,8 +39,7 @@ public class AirlinesController {
 		{
 			throw new ValidationException(br.getFieldErrors());
 		}
-		AirlineDetails airlines = airlineService.addAirline(airlineDto);
-		return airlines;
+		return airlineService.addAirline(airlineDto);
 		}
 		throw new LoginException();
 	}

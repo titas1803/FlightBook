@@ -8,6 +8,10 @@ public class BookingExceptions extends Exception{
 	
 	
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public BookingExceptions(String message) {
 		super(message);
 		this.errors = null;
@@ -16,7 +20,7 @@ public class BookingExceptions extends Exception{
 	public BookingExceptions() {
 		this.errors = null;
 	}
-	public final List<FieldError> errors;
+	private final List<FieldError> errors;
 	public BookingExceptions(List<FieldError> errors) {
 		super();
 		this.errors = errors;
