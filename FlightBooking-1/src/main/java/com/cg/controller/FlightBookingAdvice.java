@@ -1,5 +1,8 @@
 package com.cg.controller;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -38,7 +41,8 @@ public class FlightBookingAdvice {
 	@ExceptionHandler(ValidationException.class)
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
 	public ErrorMessage handleExceptionValidationException(ValidationException ex) {
-		return new ErrorMessage(HttpStatus.BAD_REQUEST.toString(), ex.getMessage());
+		List<String> errors=ex.getErrors().stream().map(err->err.getDefaultMessage()).collect(Collectors.toList());
+		return new ErrorMessage(HttpStatus.BAD_REQUEST.toString(), errors);
 		
 	}
 
