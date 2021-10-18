@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.cg.Dto.AirlinesDetailsDto;
 import com.cg.exceptions.AirlineExceptions;
+import com.cg.exceptions.NotFoundException;
 import com.cg.model.AirlineDetails;
 import com.cg.repository.AirlineDetailsRepository;
 import com.cg.util.FlightBookingConstants;
@@ -31,21 +32,21 @@ public class AirlinesDetailsServiceImpl implements AirlinesDetailsService{
 	}
 	
 	@Override
-	public String deleteAirline(Integer airlineId) throws AirlineExceptions {
+	public String deleteAirline(Integer airlineId) throws NotFoundException {
 		Optional<AirlineDetails> optAirline = airlineRepo.findById(airlineId);
 		if(!optAirline.isPresent()) {
-			throw new AirlineExceptions(FlightBookingConstants.AIRLINE_NOT_FOUND);
+			throw new NotFoundException(FlightBookingConstants.AIRLINE_NOT_FOUND);
 		}
 		airlineRepo.deleteById(airlineId);
 		return FlightBookingConstants.SUCCESSFULLY_DELETED+airlineId;	
 	}
 	
 	@Override
-	public List<AirlineDetails> viewAllAirlines() throws AirlineExceptions{
+	public List<AirlineDetails> viewAllAirlines() throws NotFoundException{
 		List<AirlineDetails> listOfAirlines = airlineRepo.findAll();
 		if(listOfAirlines.isEmpty())
 		{
-			throw new AirlineExceptions(FlightBookingConstants.AIRLINE_NOT_FOUND);
+			throw new NotFoundException(FlightBookingConstants.AIRLINE_NOT_FOUND);
 		}
 		return listOfAirlines;
 	}

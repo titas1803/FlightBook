@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.cg.Dto.BookingDetailsDto;
 import com.cg.exceptions.AirlineExceptions;
 import com.cg.exceptions.BookingExceptions;
+import com.cg.exceptions.NotFoundException;
 import com.cg.exceptions.ScheduleException;
 import com.cg.exceptions.UserException;
 import com.cg.model.BookingDetails;
@@ -34,17 +35,17 @@ public class BookingDetailsServiceImpl implements BookingDetailsService {
 	
 	@Override
 	@Transactional
-	public BookingDetails addBooking(BookingDetailsDto bookingdto ) throws UserException, ScheduleException {
+	public BookingDetails addBooking(BookingDetailsDto bookingdto ) throws NotFoundException {
 		BookingDetails bookingdetails = new BookingDetails();
 		
 		Optional<User> optUser = userRepo.findById(bookingdto.getUserId());
 		if(!optUser.isPresent()) {
-			throw new UserException(FlightBookingConstants.USER_ID_NOT_FOUND);
+			throw new NotFoundException(FlightBookingConstants.USER_ID_NOT_FOUND);
 		}
 		
 		Optional<Schedule> optSchedule = scheduleRepo.findById(bookingdto.getScheduleId());
 		if(!optSchedule.isPresent()) {
-			throw new ScheduleException(FlightBookingConstants.SCHEDULE_ID_NOT_FOUND);
+			throw new NotFoundException(FlightBookingConstants.SCHEDULE_ID_NOT_FOUND);
 		}
 		Schedule schedule = optSchedule.get(); 
 		
@@ -60,10 +61,10 @@ public class BookingDetailsServiceImpl implements BookingDetailsService {
 	
 	@Override
 	@Transactional
-	public String deleteBooking(Integer ticketId) throws BookingExceptions {
+	public String deleteBooking(Integer ticketId) throws NotFoundException {
 		Optional<BookingDetails> optBooking = bookingRepo.findById(ticketId);
 		if(!optBooking.isPresent()) {
-			throw new BookingExceptions(FlightBookingConstants.BOOKING_ID_NOT_FOUND);
+			throw new NotFoundException(FlightBookingConstants.BOOKING_ID_NOT_FOUND);
 		}
 		BookingDetails booking = optBooking.get();
 		Schedule schedule = booking.getSchedule();
@@ -75,20 +76,20 @@ public class BookingDetailsServiceImpl implements BookingDetailsService {
 	}
 	
 	@Override
-	public List<BookingDetails> viewAllBookings() throws BookingExceptions{
+	public List<BookingDetails> viewAllBookings() throws NotFoundException{
 		List<BookingDetails> listOfBookings = bookingRepo.findAll();
 		if(listOfBookings.isEmpty())
 		{
-			throw new BookingExceptions(FlightBookingConstants.AIRLINE_NOT_FOUND);
+			throw new NotFoundException(FlightBookingConstants.AIRLINE_NOT_FOUND);
 		}
 		return listOfBookings;
 	}
 	
 	@Override
-	public BookingDetails viewById(Integer ticketId) throws BookingExceptions {
+	public BookingDetails viewById(Integer ticketId) throws NotFoundException {
 	Optional<BookingDetails> optBookings = bookingRepo.findById(ticketId);
 	if(!optBookings.isPresent()){
-		throw new BookingExceptions(FlightBookingConstants.BOOKING_NOT_FOUND);
+		throw new NotFoundException(FlightBookingConstants.BOOKING_NOT_FOUND);
 	}
 	return optBookings.get();
 	}

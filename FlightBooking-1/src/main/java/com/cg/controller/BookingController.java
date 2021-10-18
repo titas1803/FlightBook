@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cg.Dto.BookingDetailsDto;
 import com.cg.exceptions.BookingExceptions;
 import com.cg.exceptions.LoginException;
+import com.cg.exceptions.NotFoundException;
 import com.cg.exceptions.ScheduleException;
 import com.cg.exceptions.UserException;
 import com.cg.exceptions.ValidationException;
@@ -37,7 +38,7 @@ public class BookingController {
 	@PostMapping("/addbooking")
 	public BookingDetails addBooking(@Valid @RequestBody BookingDetailsDto bookingDto, BindingResult br,
 			@RequestHeader("token-id") String tokenid)
-			throws UserException, ScheduleException, ValidationException, LoginException {
+			throws UserException, ScheduleException, ValidationException, LoginException, NotFoundException {
 		if (loginService.verifyLogin(tokenid)) {
 			if (br.hasErrors()) {
 				throw new ValidationException(br.getFieldErrors());
@@ -50,7 +51,7 @@ public class BookingController {
 
 	@DeleteMapping("/deletebooking/{id}")
 	public SuccessMessage deletebooking(@PathVariable("id") Integer ticketid, @RequestHeader("token-id") String tokenid)
-			throws BookingExceptions, LoginException {
+			throws LoginException, NotFoundException {
 		if (loginService.verifyLogin(tokenid)) {
 			return new SuccessMessage(bookingService.deleteBooking(ticketid));
 		}
@@ -59,7 +60,7 @@ public class BookingController {
 
 	@GetMapping("/getbookingbyid/{id}")
 	public BookingDetails viewBookingById(@PathVariable("id") Integer ticketId,
-			@RequestHeader("token-id") String tokenid) throws BookingExceptions, LoginException {
+			@RequestHeader("token-id") String tokenid) throws LoginException, NotFoundException {
 		if (loginService.verifyLogin(tokenid)) {
 			return bookingService.viewById(ticketId);
 		}
@@ -68,7 +69,7 @@ public class BookingController {
 
 	@GetMapping("/getallbookings")
 	public List<BookingDetails> viewAllBookings(@RequestHeader("token-id") String tokenid)
-			throws BookingExceptions, LoginException {
+			throws LoginException, NotFoundException {
 		if (loginService.verifyLogin(tokenid)) {
 			return bookingService.viewAllBookings();
 		}

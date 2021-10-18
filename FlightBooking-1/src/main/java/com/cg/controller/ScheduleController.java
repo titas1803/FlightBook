@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cg.Dto.ScheduleDto;
 import com.cg.exceptions.FlightException;
 import com.cg.exceptions.LoginException;
+import com.cg.exceptions.NotFoundException;
 import com.cg.exceptions.ScheduleException;
 import com.cg.exceptions.ValidationException;
 import com.cg.model.Schedule;
@@ -33,7 +34,7 @@ public class ScheduleController {
 
 	@PostMapping("/addschedule")
 	public Schedule addSchedule(@RequestBody ScheduleDto scheduleDto, BindingResult br,
-			@RequestHeader("token-id") String tokenid) throws ValidationException, LoginException, FlightException {
+			@RequestHeader("token-id") String tokenid) throws ValidationException, LoginException, NotFoundException {
 		if (loginService.verifyLogin(tokenid)) {
 			if (br.hasErrors()) {
 				throw new ValidationException(br.getFieldErrors());
@@ -46,7 +47,7 @@ public class ScheduleController {
 
 	@DeleteMapping("/deleteschedule/{id}")
 	public SuccessMessage deleteSchedule(@PathVariable("id") Integer scheduleId,
-			@RequestHeader("token-id") String tokenid) throws ScheduleException, LoginException {
+			@RequestHeader("token-id") String tokenid) throws LoginException, NotFoundException {
 		if (loginService.verifyLogin(tokenid)) {
 			return new SuccessMessage(scheduleService.deleteSchedule(scheduleId));
 		}
@@ -55,7 +56,7 @@ public class ScheduleController {
 
 	@GetMapping("/getschedulebyid/{id}")
 	public Schedule viewScheduleById(@PathVariable("id") Integer scheduleId, @RequestHeader("token-id") String tokenid)
-			throws ScheduleException, LoginException {
+			throws LoginException, NotFoundException {
 		if (loginService.verifyLogin(tokenid)) {
 			return scheduleService.viewbyScheduleId(scheduleId);
 		}
@@ -63,7 +64,7 @@ public class ScheduleController {
 	}
 
 	@GetMapping("/getallschedule")
-	public List<Schedule> viewAlSchedule(@RequestHeader("token-id") String tokenid) throws ScheduleException, LoginException {
+	public List<Schedule> viewAlSchedule(@RequestHeader("token-id") String tokenid) throws LoginException, NotFoundException {
 		if (loginService.verifyLogin(tokenid)) {
 			return scheduleService.viewAllSchedule();
 		}

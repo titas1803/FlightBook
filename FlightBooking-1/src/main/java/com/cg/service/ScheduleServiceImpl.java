@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.cg.Dto.ScheduleDto;
 import com.cg.exceptions.FlightException;
+import com.cg.exceptions.NotFoundException;
 import com.cg.exceptions.ScheduleException;
 import com.cg.model.FlightDetails;
 import com.cg.model.Schedule;
@@ -28,10 +29,10 @@ public class ScheduleServiceImpl implements ScheduleService {
 
 	@Override
 	@Transactional
-	public Schedule addSchedule(ScheduleDto scheduleDto) throws FlightException {
+	public Schedule addSchedule(ScheduleDto scheduleDto) throws NotFoundException {
 		Optional<FlightDetails> optFlight = flightRepo.findById(scheduleDto.getFlightId());
 		if(!optFlight.isPresent())
-			throw new FlightException(FlightBookingConstants.FLIGHT_ID_NOT_FOUND);	
+			throw new NotFoundException(FlightBookingConstants.FLIGHT_ID_NOT_FOUND);	
 		Schedule schedule=new Schedule();
 		schedule.setArrivaltime(scheduleDto.getArrivaltime());
 		schedule.setDeparturetime(scheduleDto.getDeparturetime());
@@ -45,28 +46,28 @@ public class ScheduleServiceImpl implements ScheduleService {
 
 	@Override
 	@Transactional
-	public String deleteSchedule(Integer scheduleId) throws ScheduleException {
+	public String deleteSchedule(Integer scheduleId) throws NotFoundException {
 		Optional<Schedule> optSchedule=scheduleRepo.findById(scheduleId);
 		if(!optSchedule.isPresent())
-			throw new ScheduleException(FlightBookingConstants.SCHEDULE_ID_NOT_FOUND);
+			throw new NotFoundException(FlightBookingConstants.SCHEDULE_ID_NOT_FOUND);
 		scheduleRepo.deleteById(scheduleId);
 		return FlightBookingConstants.SUCCESSFULLY_DELETED+scheduleId;
 	}
 
 	@Override
-	public Schedule viewbyScheduleId(Integer scheduleId) throws ScheduleException {
+	public Schedule viewbyScheduleId(Integer scheduleId) throws NotFoundException {
 		Optional<Schedule> optSchedule=scheduleRepo.findById(scheduleId);
 		if(!optSchedule.isPresent())
-			throw new ScheduleException(FlightBookingConstants.SCHEDULE_ID_NOT_FOUND);
+			throw new NotFoundException(FlightBookingConstants.SCHEDULE_ID_NOT_FOUND);
 		return optSchedule.get();
 	}
 
 
 	@Override
-	public List<Schedule> viewAllSchedule() throws ScheduleException {
+	public List<Schedule> viewAllSchedule() throws NotFoundException {
 		List<Schedule> lst=scheduleRepo.findAll();
 		if(lst.isEmpty())
-			throw new ScheduleException(FlightBookingConstants.SCHEDULE_NOT_FOUND);
+			throw new NotFoundException(FlightBookingConstants.SCHEDULE_NOT_FOUND);
 		return lst;
 	}
 

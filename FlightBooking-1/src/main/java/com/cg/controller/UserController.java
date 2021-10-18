@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cg.Dto.UserDto;
+import com.cg.exceptions.AlreadyExistsException;
 import com.cg.exceptions.LoginException;
+import com.cg.exceptions.NotFoundException;
 import com.cg.exceptions.UserException;
 import com.cg.exceptions.ValidationException;
 import com.cg.model.User;
@@ -32,7 +34,7 @@ public class UserController {
 	private LoginService loginSer;
 	
 	@PostMapping("createuser")
-	public User createUser(@Valid @RequestBody UserDto userDto, BindingResult br) throws ValidationException, UserException {
+	public User createUser(@Valid @RequestBody UserDto userDto, BindingResult br) throws ValidationException, AlreadyExistsException {
 		if(br.hasErrors())
 			throw new ValidationException(br.getFieldErrors());
 		User createdUser=userSer.addUser(userDto);
@@ -40,7 +42,7 @@ public class UserController {
 	}
 	
 	@GetMapping("viewusers")
-	public List<User> viewAllUsers(@RequestHeader("token-id") String tokenId) throws LoginException, UserException{
+	public List<User> viewAllUsers(@RequestHeader("token-id") String tokenId) throws LoginException, NotFoundException{
 		if(loginSer.verifyLogin(tokenId)){
 			return userSer.viewAllUser();
 		}
@@ -48,7 +50,7 @@ public class UserController {
 	}
 	
 	@GetMapping("viewuserbyid/{userId}")
-	public User viewbyId(@PathVariable("userId") Integer userId, @RequestHeader("token-id") String tokenId) throws LoginException, UserException{
+	public User viewbyId(@PathVariable("userId") Integer userId, @RequestHeader("token-id") String tokenId) throws LoginException, NotFoundException{
 		if(loginSer.verifyLogin(tokenId)) {
 			return userSer.viewUserbyId(userId);
 		}

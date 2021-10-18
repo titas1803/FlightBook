@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cg.Dto.AirlinesDetailsDto;
 import com.cg.exceptions.AirlineExceptions;
 import com.cg.exceptions.LoginException;
+import com.cg.exceptions.NotFoundException;
 import com.cg.exceptions.ValidationException;
 import com.cg.model.AirlineDetails;
 import com.cg.service.AirlinesDetailsService;
@@ -48,7 +49,7 @@ public class AirlinesController {
 	}
 	
 	@DeleteMapping("/deleteairline/{id}")
-	public SuccessMessage deleteAirline(@PathVariable("id") Integer airlineId, @RequestHeader("token-id") String tokenid) throws AirlineExceptions, LoginException
+	public SuccessMessage deleteAirline(@PathVariable("id") Integer airlineId, @RequestHeader("token-id") String tokenid) throws LoginException, NotFoundException
 	{
 		if(loginService.verifyLogin(tokenid)) {
 		return new SuccessMessage(airlineService.deleteAirline(airlineId));
@@ -57,7 +58,7 @@ public class AirlinesController {
 	}
 	
 	@GetMapping("/getallairlines")
-	public List<AirlineDetails> viewAllAirlines(@RequestHeader("token-id") String tokenid) throws AirlineExceptions, LoginException
+	public List<AirlineDetails> viewAllAirlines(@RequestHeader("token-id") String tokenid) throws LoginException, NotFoundException
 	{
 		if(loginService.verifyLogin(tokenid)) {
 		return airlineService.viewAllAirlines();

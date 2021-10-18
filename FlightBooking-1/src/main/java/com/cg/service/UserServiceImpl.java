@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cg.Dto.UserDto;
+import com.cg.exceptions.AlreadyExistsException;
+import com.cg.exceptions.NotFoundException;
 import com.cg.exceptions.UserException;
 import com.cg.model.Login;
 import com.cg.model.User;
@@ -30,16 +32,16 @@ public class UserServiceImpl implements UserService{
 	
 	@Override
 	@Transactional
-	public User addUser(UserDto userDto) throws UserException {
+	public User addUser(UserDto userDto) throws AlreadyExistsException {
 		
 		Optional<User> optUserbyCon= userRepo.findByContact(userDto.getPhoneNumber());
 		if(optUserbyCon.isPresent()) {
-			throw new UserException(FlightBookingConstants.PHONE_NUMBER_ALREADY_EXISTS);
+			throw new AlreadyExistsException(FlightBookingConstants.PHONE_NUMBER_ALREADY_EXISTS);
 		}
 		
 		Optional<User> optUserbyEmail= userRepo.findByEmail(userDto.getEmail());
 		if(optUserbyEmail.isPresent()) {
-			throw new UserException(FlightBookingConstants.EMAILID_ALREADY_EXISTS);
+			throw new AlreadyExistsException(FlightBookingConstants.EMAILID_ALREADY_EXISTS);
 		}
 		
 		User user= new User();
@@ -57,29 +59,29 @@ public class UserServiceImpl implements UserService{
 	}
 	
 	@Override
-	public List<User> viewAllUser() throws UserException{
+	public List<User> viewAllUser() throws NotFoundException{
 		List<User> usrlst = userRepo.findAll();
 		if(usrlst.isEmpty())
-			throw new UserException(FlightBookingConstants.USER_NOT_FOUND);
+			throw new NotFoundException(FlightBookingConstants.USER_NOT_FOUND);
 		usrlst.sort((u1,u2)-> u1.getUserName().compareTo(u2.getUserName()));
 		return usrlst;
 		
 	}
 	
 	@Override
-	public User viewUserbyId(Integer userId) throws UserException{
+	public User viewUserbyId(Integer userId) throws NotFoundException{
 		Optional<User> optUser = userRepo.findById(userId);
 		if (!optUser.isPresent()) {
-			throw new UserException(FlightBookingConstants.USER_ID_NOT_FOUND);
+			throw new NotFoundException(FlightBookingConstants.USER_ID_NOT_FOUND);
 		}
 		return optUser.get();
 	}
 	
 	@Override
-	public String deleteUser(Integer userId) throws UserException{
+	public String deleteUser(Integer userId) throws NotFoundException{
 		Optional<User> optUser = userRepo.findById(userId);
 		if (!optUser.isPresent()) {
-			throw new UserException(FlightBookingConstants.USER_ID_NOT_FOUND);
+			throw new NotFoundException(FlightBookingConstants.USER_ID_NOT_FOUND);
 		}
 		userRepo.deleteById(userId);
 		return FlightBookingConstants.SUCCESSFULLY_DELETED+userId;

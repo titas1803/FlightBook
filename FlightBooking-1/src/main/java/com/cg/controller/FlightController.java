@@ -18,6 +18,7 @@ import com.cg.Dto.FlightDetailsDto;
 import com.cg.exceptions.AirlineExceptions;
 import com.cg.exceptions.FlightException;
 import com.cg.exceptions.LoginException;
+import com.cg.exceptions.NotFoundException;
 import com.cg.exceptions.ValidationException;
 import com.cg.model.FlightDetails;
 import com.cg.service.FlightDetailsService;
@@ -36,7 +37,7 @@ public class FlightController {
 
 	@PostMapping("addflight")
 	public FlightDetails addFlight(@Valid @RequestBody FlightDetailsDto flightDto,
-			@RequestHeader("token-id") String tokenid, BindingResult br) throws FlightException, LoginException, ValidationException, AirlineExceptions {
+			@RequestHeader("token-id") String tokenid, BindingResult br) throws LoginException, ValidationException, NotFoundException {
 		if (loginSer.verifyLogin(tokenid)) {
 			if (br.hasErrors())
 				throw new ValidationException(br.getFieldErrors());
@@ -48,7 +49,7 @@ public class FlightController {
 
 	@DeleteMapping("deletebyid/{flightId}")
 	public SuccessMessage deleteFlight(@PathVariable("flightId") Integer flightId,
-			@RequestHeader("token-id") String tokenid) throws LoginException, FlightException, ValidationException {
+			@RequestHeader("token-id") String tokenid) throws LoginException, NotFoundException {
 		if (loginSer.verifyLogin(tokenid)) {
 			String deletedflight = flightSer.deleteFlight(flightId);
 			return new SuccessMessage(deletedflight);
@@ -58,7 +59,7 @@ public class FlightController {
 
 	@GetMapping("viewbyid/{flightid}")
 	public FlightDetails viewbyid(@PathVariable("flightid") Integer flightId,
-			@RequestHeader("token-id") String tokenId) throws FlightException, LoginException, ValidationException {
+			@RequestHeader("token-id") String tokenId) throws LoginException, NotFoundException {
 		if(loginSer.verifyLogin(tokenId)) {
 			return flightSer.viewById(flightId);
 		}
@@ -67,7 +68,7 @@ public class FlightController {
 	}
 	
 	@GetMapping("viewallflights")
-	public List<FlightDetails> viewallflight(@RequestHeader("token-id") String tokenid) throws LoginException, FlightException{
+	public List<FlightDetails> viewallflight(@RequestHeader("token-id") String tokenid) throws LoginException, NotFoundException{
 		if(loginSer.verifyLogin(tokenid)) {
 			List<FlightDetails> lst=flightSer.viewAllFlights();
 			return lst;

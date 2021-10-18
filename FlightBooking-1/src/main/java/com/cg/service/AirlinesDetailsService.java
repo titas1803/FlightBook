@@ -4,14 +4,15 @@ import java.util.List;
 
 import com.cg.Dto.AirlinesDetailsDto;
 import com.cg.exceptions.AirlineExceptions;
+import com.cg.exceptions.NotFoundException;
 import com.cg.model.AirlineDetails;
 
 public interface AirlinesDetailsService {
 
 	public AirlineDetails addAirline(AirlinesDetailsDto airlinedto);
 
-	public String deleteAirline(Integer airlineId) throws AirlineExceptions;
+	public String deleteAirline(Integer airlineId) throws NotFoundException;
 
-	List<AirlineDetails> viewAllAirlines() throws AirlineExceptions;
+	List<AirlineDetails> viewAllAirlines() throws NotFoundException;
 
 }
