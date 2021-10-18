@@ -3,11 +3,7 @@ package com.cg.service;
 import java.util.List;
 
 import com.cg.Dto.BookingDetailsDto;
-import com.cg.exceptions.AirlineExceptions;
-import com.cg.exceptions.BookingExceptions;
 import com.cg.exceptions.NotFoundException;
-import com.cg.exceptions.ScheduleException;
-import com.cg.exceptions.UserException;
 import com.cg.model.BookingDetails;
 
 public interface BookingDetailsService  {

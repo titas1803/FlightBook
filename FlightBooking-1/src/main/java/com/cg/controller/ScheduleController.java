@@ -13,10 +13,8 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cg.Dto.ScheduleDto;
-import com.cg.exceptions.FlightException;
 import com.cg.exceptions.LoginException;
 import com.cg.exceptions.NotFoundException;
-import com.cg.exceptions.ScheduleException;
 import com.cg.exceptions.ValidationException;
 import com.cg.model.Schedule;
 import com.cg.service.LoginService;

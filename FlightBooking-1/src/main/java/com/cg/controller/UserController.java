@@ -17,7 +17,6 @@ import com.cg.Dto.UserDto;
 import com.cg.exceptions.AlreadyExistsException;
 import com.cg.exceptions.LoginException;
 import com.cg.exceptions.NotFoundException;
-import com.cg.exceptions.UserException;
 import com.cg.exceptions.ValidationException;
 import com.cg.model.User;
 import com.cg.service.LoginService;

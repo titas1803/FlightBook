@@ -16,6 +16,7 @@ public class UserDto {
 	private String userName;
 
 	@Length(min = 10, max = 10, message = FlightBookingConstants.INVALID_PHONE_NUMBER)
+	@NotBlank(message = FlightBookingConstants.INVALID_PHONE_NUMBER)
 	private String phoneNumber;
 
 	@NotBlank

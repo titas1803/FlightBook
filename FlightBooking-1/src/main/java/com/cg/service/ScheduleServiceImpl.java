@@ -9,9 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cg.Dto.ScheduleDto;
-import com.cg.exceptions.FlightException;
 import com.cg.exceptions.NotFoundException;
-import com.cg.exceptions.ScheduleException;
 import com.cg.model.FlightDetails;
 import com.cg.model.Schedule;
 import com.cg.repository.FlightRepository;

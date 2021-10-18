@@ -5,7 +5,6 @@ import java.util.List;
 import com.cg.Dto.UserDto;
 import com.cg.exceptions.AlreadyExistsException;
 import com.cg.exceptions.NotFoundException;
-import com.cg.exceptions.UserException;
 import com.cg.model.User;
 
 public interface UserService {

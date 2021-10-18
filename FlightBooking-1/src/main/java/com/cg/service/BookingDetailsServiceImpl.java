@@ -8,11 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cg.Dto.BookingDetailsDto;
-import com.cg.exceptions.AirlineExceptions;
-import com.cg.exceptions.BookingExceptions;
 import com.cg.exceptions.NotFoundException;
-import com.cg.exceptions.ScheduleException;
-import com.cg.exceptions.UserException;
 import com.cg.model.BookingDetails;
 import com.cg.model.Schedule;
 import com.cg.model.User;

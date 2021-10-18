@@ -1,6 +1,5 @@
 package com.cg.Dto;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import com.cg.util.FlightBookingConstants;

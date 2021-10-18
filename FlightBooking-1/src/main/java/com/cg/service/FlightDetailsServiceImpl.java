@@ -8,8 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cg.Dto.FlightDetailsDto;
-import com.cg.exceptions.AirlineExceptions;
-import com.cg.exceptions.FlightException;
 import com.cg.exceptions.NotFoundException;
 import com.cg.model.AirlineDetails;
 import com.cg.model.FlightDetails;

@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cg.Dto.BookingDetailsDto;
-import com.cg.exceptions.BookingExceptions;
 import com.cg.exceptions.LoginException;
 import com.cg.exceptions.NotFoundException;
 import com.cg.exceptions.ScheduleException;

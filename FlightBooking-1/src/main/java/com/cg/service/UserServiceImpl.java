@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import com.cg.Dto.UserDto;
 import com.cg.exceptions.AlreadyExistsException;
 import com.cg.exceptions.NotFoundException;
-import com.cg.exceptions.UserException;
 import com.cg.model.Login;
 import com.cg.model.User;
 import com.cg.repository.LoginRepository;
