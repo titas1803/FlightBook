@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cg.Dto.BookingDetailsDto;
+import com.cg.exceptions.NotAvailableException;
 import com.cg.exceptions.NotFoundException;
 import com.cg.model.BookingDetails;
 import com.cg.model.Schedule;
@@ -19,74 +20,75 @@ import com.cg.util.FlightBookingConstants;
 
 @Service
 public class BookingDetailsServiceImpl implements BookingDetailsService {
-	
+
 	@Autowired
 	private BookingRepository bookingRepo;
-	
+
 	@Autowired
 	private UserRepository userRepo;
-	
+
 	@Autowired
 	private ScheduleRepository scheduleRepo;
-	
+
 	@Override
 	@Transactional
-	public BookingDetails addBooking(BookingDetailsDto bookingdto ) throws NotFoundException {
+	public BookingDetails addBooking(BookingDetailsDto bookingdto) throws NotFoundException, NotAvailableException {
 		BookingDetails bookingdetails = new BookingDetails();
-		
+
 		Optional<User> optUser = userRepo.findById(bookingdto.getUserId());
-		if(!optUser.isPresent()) {
+		if (!optUser.isPresent()) {
 			throw new NotFoundException(FlightBookingConstants.USER_ID_NOT_FOUND);
 		}
-		
+
 		Optional<Schedule> optSchedule = scheduleRepo.findById(bookingdto.getScheduleId());
-		if(!optSchedule.isPresent()) {
+		if (!optSchedule.isPresent()) {
 			throw new NotFoundException(FlightBookingConstants.SCHEDULE_ID_NOT_FOUND);
 		}
-		Schedule schedule = optSchedule.get(); 
-		
+		Schedule schedule = optSchedule.get();
+		if (schedule.getSeatsAvailable() < bookingdto.getNoOfPersons())
+			throw new NotAvailableException(bookingdto.getNoOfPersons() + FlightBookingConstants.SEATS_NOT_AVAILABLE
+					+ FlightBookingConstants.NUMBER_OF_AVAILABLE_SEATS + schedule.getSeatsAvailable());
 		bookingdetails.setNoOfPersons(bookingdto.getNoOfPersons());
 		bookingdetails.setUser(optUser.get());
-		schedule.setSeatsAvailable(schedule.getSeatsAvailable()-bookingdto.getNoOfPersons());
+		schedule.setSeatsAvailable(schedule.getSeatsAvailable() - bookingdto.getNoOfPersons());
 		bookingdetails.setSchedule(optSchedule.get());
-		
+
 		scheduleRepo.save(schedule);
 		return bookingRepo.save(bookingdetails);
-		
+
 	}
-	
+
 	@Override
 	@Transactional
 	public String deleteBooking(Integer ticketId) throws NotFoundException {
 		Optional<BookingDetails> optBooking = bookingRepo.findById(ticketId);
-		if(!optBooking.isPresent()) {
+		if (!optBooking.isPresent()) {
 			throw new NotFoundException(FlightBookingConstants.BOOKING_ID_NOT_FOUND);
 		}
 		BookingDetails booking = optBooking.get();
 		Schedule schedule = booking.getSchedule();
-		schedule.setSeatsAvailable(schedule.getSeatsAvailable()+booking.getNoOfPersons());
+		schedule.setSeatsAvailable(schedule.getSeatsAvailable() + booking.getNoOfPersons());
 		bookingRepo.deleteById(ticketId);
-		
+
 		scheduleRepo.saveAndFlush(schedule);
-		return FlightBookingConstants.SUCCESSFULLY_DELETED+ticketId;	
+		return FlightBookingConstants.SUCCESSFULLY_DELETED + ticketId;
 	}
-	
+
 	@Override
-	public List<BookingDetails> viewAllBookings() throws NotFoundException{
+	public List<BookingDetails> viewAllBookings() throws NotFoundException {
 		List<BookingDetails> listOfBookings = bookingRepo.findAll();
-		if(listOfBookings.isEmpty())
-		{
+		if (listOfBookings.isEmpty()) {
 			throw new NotFoundException(FlightBookingConstants.AIRLINE_NOT_FOUND);
 		}
 		return listOfBookings;
 	}
-	
+
 	@Override
 	public BookingDetails viewById(Integer ticketId) throws NotFoundException {
-	Optional<BookingDetails> optBookings = bookingRepo.findById(ticketId);
-	if(!optBookings.isPresent()){
-		throw new NotFoundException(FlightBookingConstants.BOOKING_NOT_FOUND);
-	}
-	return optBookings.get();
+		Optional<BookingDetails> optBookings = bookingRepo.findById(ticketId);
+		if (!optBookings.isPresent()) {
+			throw new NotFoundException(FlightBookingConstants.BOOKING_NOT_FOUND);
+		}
+		return optBookings.get();
 	}
 }

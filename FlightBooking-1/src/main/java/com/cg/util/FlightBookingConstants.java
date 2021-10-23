@@ -36,6 +36,8 @@ public class FlightBookingConstants {
 	public static final String ARRIVALTIME_REQUIRED = "Enter arrival time";
 	public static final String LOCALTIME_PRESENT_OR_FUTURE = "Time must be in future or present";
 	public static final String ACEESS_DENIED = "Access not granted";
+	public static final String SEATS_NOT_AVAILABLE=" Seat(s) Not Available.";
+	public static final String NUMBER_OF_AVAILABLE_SEATS= "Number of seat(s) available is only ";
 	private FlightBookingConstants() {
 		super();
 	}

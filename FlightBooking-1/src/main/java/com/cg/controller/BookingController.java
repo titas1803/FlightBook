@@ -16,9 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cg.Dto.BookingDetailsDto;
 import com.cg.exceptions.LoginException;
+import com.cg.exceptions.NotAvailableException;
 import com.cg.exceptions.NotFoundException;
-import com.cg.exceptions.ScheduleException;
-import com.cg.exceptions.UserException;
 import com.cg.exceptions.ValidationException;
 import com.cg.model.BookingDetails;
 import com.cg.service.BookingDetailsService;
@@ -37,7 +36,7 @@ public class BookingController {
 	@PostMapping("/addbooking")
 	public BookingDetails addBooking(@Valid @RequestBody BookingDetailsDto bookingDto, BindingResult br,
 			@RequestHeader("token-id") String tokenid)
-			throws UserException, ScheduleException, ValidationException, LoginException, NotFoundException {
+			throws ValidationException, LoginException, NotFoundException, NotAvailableException {
 		if (loginService.verifyLogin(tokenid)) {
 			if (br.hasErrors()) {
 				throw new ValidationException(br.getFieldErrors());

@@ -1,18 +1,19 @@
 package com.cg.exceptions;
 
-public class AirlineExceptions extends Exception{
-
+public class NotAvailableException extends Exception{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public AirlineExceptions() {
+	public NotAvailableException() {
 		super();
 	}
 
-	public AirlineExceptions(String message) {
+	public NotAvailableException(String message) {
 		super(message);
 	}
 	
+	
+
 }
