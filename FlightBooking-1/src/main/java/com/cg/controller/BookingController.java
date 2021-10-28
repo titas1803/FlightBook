@@ -41,8 +41,7 @@ public class BookingController {
 			if (br.hasErrors()) {
 				throw new ValidationException(br.getFieldErrors());
 			}
-			BookingDetails bookings = bookingService.addBooking(bookingDto);
-			return bookings;
+			return bookingService.addBooking(bookingDto);
 		}
 		throw new LoginException();
 	}
